@@ -43,7 +43,8 @@ if submit_chat and prompt:
     with st.sidebar.chat_message("assistant"):
         with st.spinner("Thinking..."):
             try:
-                chat_res = requests.post("http://localhost:5001/api/chat", json=chat_payload)
+                api_url = os.environ.get("API_URL", "http://localhost:5001")
+                chat_res = requests.post(f"{api_url}/api/chat", json=chat_payload)
                 if chat_res.status_code == 200:
                     reply = chat_res.json().get('reply', 'Error')
                     st.markdown(reply)
@@ -90,7 +91,8 @@ if submit:
             
             try:
                 # Attempt to call backend API
-                res = requests.post("http://localhost:5001/api/analyze/startup", json=payload)
+                api_url = os.environ.get("API_URL", "http://localhost:5001")
+                res = requests.post(f"{api_url}/api/analyze/startup", json=payload)
                 
                 if res.status_code == 200:
                     data = res.json()

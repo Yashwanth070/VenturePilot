@@ -25,7 +25,8 @@ if uploaded_file is not None:
                 files = {'file': (uploaded_file.name, uploaded_file, 'application/pdf')}
                 data = {'user_id': st.session_state['user']['id']}
                 
-                res = requests.post("http://localhost:5001/api/analyze/pitchdeck", files=files, data=data)
+                api_url = os.environ.get("API_URL", "http://localhost:5001")
+                res = requests.post(f"{api_url}/api/analyze/pitchdeck", files=files, data=data)
                 
                 if res.status_code == 200:
                     results = res.json()
